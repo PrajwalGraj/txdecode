@@ -4,7 +4,7 @@ mod rpc;
 
 use anyhow::Result;
 
-use crate::decoder::{compute_budget_instruction_name, instruction_name, program_name};
+use crate::decoder::{ decode_compute_budget_instruction, instruction_name, program_name};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -69,16 +69,7 @@ async fn main() -> Result<()> {
             println!("Receiver     : {}",to);
             println!("Amount       : {} SOL",lamports as f32 / 1_000_000_000.0);
         }else if program_name == "Compute Budget"{
-            let compute_name = compute_budget_instruction_name(data[0]);
-
-            println!("Instruction  : {}",compute_name);
-            if compute_name == "Set Compute Unit Price"{
-                let units = u64::from_le_bytes(data[1..9].try_into().expect("Invalid compute budget instruction"));
-                println!("Price        : {} micro-lamports",units);
-            }else{
-                let units = u32::from_le_bytes(data[1..5].try_into().expect("Invalid compute budget instruction"));
-                println!("Units        : {}",units);
-            }
+            decode_compute_budget_instruction(&data);
         }
         println!("");
 

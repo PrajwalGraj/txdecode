@@ -27,10 +27,19 @@ pub fn instruction_name(instruction_number: u32) -> &'static str{
     }
 }
 
-pub fn compute_budget_instruction_name(discriminator: u8) -> &'static str {
+pub fn decode_compute_budget_instruction(data: &Vec<u8>) {
+    let discriminator = data[0];
     match discriminator {
-        2 => "Set Compute Unit Limit",
-        3 => "Set Compute Unit Price",
-        _ => "Unknown"
+        2 => {
+            println!("Instruction  : Set Compute Unit Limit");
+            let units = u32::from_le_bytes(data[1..5].try_into().expect("Invalid compute budget instruction"));
+            println!("Units        : {}",units);
+        },
+        3 => {
+            println!("Instruction  : Set Compute Unit Price");
+            let units = u64::from_le_bytes(data[1..9].try_into().expect("Invalid compute budget instruction"));
+            println!("Price        : {} micro-lamports",units);
+        },
+        _ => println!("Unknown Data")
     }
 }
