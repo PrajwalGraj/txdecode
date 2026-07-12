@@ -1,3 +1,5 @@
+use serde_json::Value;
+
 pub fn program_name(program_id: &str) -> &str {
     match program_id {
         "11111111111111111111111111111111" => "System Program",
@@ -12,5 +14,23 @@ pub fn program_name(program_id: &str) -> &str {
             "Associated Token Account",
 
         _ => "Unknown Program",
+    }
+}
+
+pub fn instruction_name(instruction_number: u32) -> &'static str{
+    match instruction_number{
+        0 => "Create Account",
+        2 => "Transfer",
+        3 => "Create Account With Seed",
+        4 => "Advance Nonce",
+        _ => "Instruction Name not defined yet"
+    }
+}
+
+pub fn compute_budget_instruction_name(discriminator: u8) -> &'static str {
+    match discriminator {
+        2 => "Set Compute Unit Limit",
+        3 => "Set Compute Unit Price",
+        _ => "Unknown"
     }
 }
