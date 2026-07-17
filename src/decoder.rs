@@ -54,3 +54,15 @@ pub fn token_instruction_name(id: u8) -> &'static str{
         _ => "Unknown",
     }
 }
+
+pub fn token_name(mint: &str) -> &'static str {
+    match mint {
+        "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" => "USDC",
+        "Es9vMFrzaCERmJfrF4H2FYD4KCoNkQWkLh1kP7xQb..." => "USDT",
+        "So11111111111111111111111111111111111111112" => "Wrapped SOL",
+        "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263" => "BONK",
+        "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN" => "JUP",
+        "EKpQGSJtjMFqKZbJ..." => "WIF",
+        _ => "Unknown Token",
+    }
+}

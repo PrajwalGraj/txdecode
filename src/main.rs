@@ -4,7 +4,7 @@ mod rpc;
 
 use anyhow::Result;
 
-use crate::decoder::{ decode_compute_budget_instruction, instruction_name, program_name, token_instruction_name};
+use crate::decoder::{ decode_compute_budget_instruction, instruction_name, program_name, token_instruction_name, token_name};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -95,14 +95,15 @@ async fn main() -> Result<()> {
                     let accounts = inst["accounts"]
                         .as_array()
                         .expect("Missing accounts");
-
+                    let mint = account_keys[accounts[1].as_u64().unwrap() as usize].as_str().unwrap();
                     println!("Instruction   : {}", token_instruction_name(instruction));
                     println!("Source        : {}", account_keys[accounts[0].as_u64().unwrap() as usize].as_str().unwrap());
-                    println!("Mint          : {}",account_keys[accounts[1].as_u64().unwrap() as usize].as_str().unwrap());
+                    println!("Token         : {}",token_name(mint));
+                    println!("Mint          : {}",mint);
                     println!("Destination   : {}",account_keys[accounts[2].as_u64().unwrap() as usize].as_str().unwrap());
                     println!("Authority     : {}",account_keys[accounts[3].as_u64().unwrap() as usize].as_str().unwrap());
-                    println!("Amount        : {}", ui_amount);
-                    println!("Decimals      : {}", decimals);
+                    println!("Amount        : {}",ui_amount);
+                    println!("Decimals      : {}",decimals);
                 }
                 _ => {
                     println!("Instruction  : {}",token_instruction_name(instruction));
@@ -153,7 +154,7 @@ async fn main() -> Result<()> {
             println!("Token Account : {}", token_account);
             println!("Mint          : {}", mint);
             println!("Owner         : {}", owner);
-            println!("Change        : {:+}", ui_diff);
+            println!("Change        : {:+} {}", ui_diff, token_name(mint));
             println!();
         }
     }
