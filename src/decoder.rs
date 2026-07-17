@@ -43,3 +43,14 @@ pub fn decode_compute_budget_instruction(data: &Vec<u8>) {
         _ => println!("Unknown Data")
     }
 }
+
+pub fn token_instruction_name(id: u8) -> &'static str{
+    match id {
+        3 => "Transfer",
+        7 => "MintTo",
+        8 => "Burn",
+        9 => "CloseAccount",
+        12 => "TransferChecked",
+        _ => "Unknown",
+    }
+}
